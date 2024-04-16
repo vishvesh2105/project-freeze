@@ -1,139 +1,41 @@
-# Assignment 2: Implementation of Stacks and Queues using Linked Lists
-
-## Objective:
-The objective of this assignment is to reinforce your understanding of data structures, specifically `stacks` and `queues`, and to enhance your proficiency in implementing them using linked lists in the C programming language.
-
-## Assignment Description:
-In this assignment, you will be tasked with implementing both `stack` and `queue` data structures using `linked lists` in C. You will apply these implementations to a use case scenario: **a simplified web browser history manager**.
-
-## Assignment Tasks:
-
-1. **Stack Implementation**:
----
-
-* Define a structure `StackNode` to represent each node in the linked list. This structure should contain:
-    *   A pointer to a string representing the URL visited (e.g., `char* url`).
-    * A pointer field to point to the next node (e.g., `struct StackNode* next`).
-
-* Define a structure `Stack` to represent the stack itself. This structure should contain:
-    * A pointer to the top node of the stack (e.g., `struct StackNode* top`).
-
-* Implement the following functions:
-    * `void push(Stack* stack, char* newUrl)`: Adds a new URL to the top of the stack.
-    * `char* pop(Stack* stack)`: Removes and returns the URL from the top of the stack.
-    * `char* peek(Stack* stack)`: Returns the URL from the top of the stack without removing it.
-    * `bool isEmpty(Stack* stack)`: Checks if the stack is empty.
-
-Ensure proper memory management by freeing memory for nodes that are popped from the stack.
+**Program Documentation: Crime Data Analysis**
 
 ---
 
-2. **Queue Implementation**:
+**Overview:**
+This program is designed to analyze crime data within a specified radius of a given location. It loads crime data from a text file, calculates distances between crime locations and a target location using the Haversine formula, and identifies crimes within the specified radius. The user can input a location and a radius to retrieve crime data for that area.
 
-* Define a structure `QueueNode` to represent each node in the linked list. This structure should contain:
-    * A pointer to a string representing the URL visited (e.g., `char* url`).
-    * A pointer field to point to the next node (e.g., `struct QueueNode* next`).
-* Define a structure Queue to represent the queue itself. This structure should contain:
-    * Pointers to the front and rear nodes of the queue (e.g., `struct QueueNode* front`, `struct QueueNode* rear`)
-* Implement the following functions:
-    * `void enqueue(Queue* queue, char* newUrl)`: Adds a new URL to the rear of the queue.
-    * `char* dequeue(Queue* queue)`: Removes and returns the URL from the front of the queue.
-    * `char* peek(Queue* queue)`: Returns the URL from the front of the queue without removing it.
-    * `bool isEmpty(Queue* queue)`: Checks if the queue is empty.
-    
-Ensure proper memory management by freeing memory for nodes that are dequeued from the queue.
+**Parts:**
 
----
+1. **Data Loading and Processing:**
+   - The program defines a structure `CrimeData` to store information about each crime, including location, type, latitude, and longitude.
+   - The function `loadCrimeData` reads crime data from a text file and populates an array of `CrimeData` objects.
 
-3. **Web Browser History Manager**:
+2. **Geospatial Calculations:**
+   - The function `calculateDistance` implements the Haversine formula to calculate the distance between two sets of coordinates.
+   - The function `getCrimesInRadius` uses the calculated distance to find crimes within a specified radius of a given coordinate.
 
-* Use the stack and queue implementations from Tasks 1 and 2.
-* When a user visits a new web page, push the URL onto the stack and enqueue it into the queue.
-* Implement a menu-based user interface allowing users to:
-    1. Visit a new web page and add it to the browsing history.
-    2. Navigate back to the previous web page.
-    3. Navigate forward to the next web page.
-    4. Display the current web page and the browsing history.
-    5. Exit the browser.
+3. **User Interaction and Input:**
+   - The `main` function manages user interaction and input.
+   - It prompts the user to enter a location and a radius, maps the location to its corresponding latitude and longitude, and calls the relevant functions to analyze crime data.
 
-Ensure that navigating back and forth updates both the stack and queue appropriately to maintain consistency in browsing history.
+4. **Output and Memory Management:**
+   - The function `displayCrimeData` outputs crime data to the console.
+   - Memory allocated dynamically during program execution is deallocated at the end of the program to prevent memory leaks.
 
-## **Navigating Backward and Forward**:
+**Usage:**
+1. Compile the program using a C++ compiler.
+2. Ensure that the crime data is stored in a text file named "crime_data.txt" in the specified format (location, type, latitude, longitude).
+3. Run the compiled executable.
+4. Enter a location and a radius when prompted.
+5. View the list of crimes within the specified radius.
 
-1. When navigating backward (using the back button), the program should pop the top URL from the stack to retrieve the previous page URL. This URL should then be displayed to the user, and it should be enqueued into the forward queue to support forward navigation.
- 
-2. When navigating forward (using the forward button), the program should dequeue the next URL from the queue to retrieve the next page URL. This URL should then be pushed onto the stack to support backward navigation.
+**Dependencies:**
+- The program requires the `<iostream>`, `<fstream>`, `<sstream>`, `<string>`, and `<cmath>` standard C++ libraries for input/output operations, file handling, string manipulation, and mathematical calculations.
 
----    
-   
-Ensure that the stack and queue are updated appropriately to maintain consistency in browsing history during navigation.
-
-Handle edge cases such as reaching the beginning or end of the browsing history, ensuring that the user cannot navigate beyond the available pages.
-
-Example Console:
-
-```
-
-Welcome to the Web Browser History Manager!
-
-Menu:
-1. Visit New Web Page
-2. Navigate Backward
-3. Navigate Forward
-4. Display Current Page and History
-5. Exit
-
-Enter your choice: 1
-Enter the URL of the web page: https://example.com
-Visited: https://example.com
-
-Menu:
-1. Visit New Web Page
-2. Navigate Backward
-3. Navigate Forward
-4. Display Current Page and History
-5. Exit
-
-Enter your choice: 2
-Previous Page: https://example.com
-
-Menu:
-1. Visit New Web Page
-2. Navigate Backward
-3. Navigate Forward
-4. Display Current Page and History
-5. Exit
-
-Enter your choice: 3
-Next Page: https://example.com
-
-Menu:
-1. Visit New Web Page
-2. Navigate Backward
-3. Navigate Forward
-4. Display Current Page and History
-5. Exit
-
-Enter your choice: 4
-Current Page: https://example.com
-
-Backward History:
-1. https://example.com
-
-Forward History:
-1. https://example.com
-
-Menu:
-1. Visit New Web Page
-2. Navigate Backward
-3. Navigate Forward
-4. Display Current Page and History
-5. Exit
-
-Enter your choice: 5
-Thank you for using the web browser. Goodbye!
-
-
-```
+**Notes:**
+- Ensure that the crime data file is accessible and correctly formatted for proper program execution.
+- The Haversine formula used for distance calculation assumes a spherical Earth model and may not be entirely accurate for all locations.
+- The program currently supports specific locations (Kitchener, Waterloo, Chicopee, Guelph, Cambridge) with hardcoded latitude and longitude values. Additional locations can be added as needed.
 
 
